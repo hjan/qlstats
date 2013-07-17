@@ -104,6 +104,8 @@ proc qlstats::getHelp {nick chan} {
 	putquick "NOTICE $nick :         -last     Displays statistics of the latest match a player had (result, scores, accuracy, etc.)";
 	putquick "NOTICE $nick :         -status   Does inform you about Quakelive.com online/offline status";
 	putquick "NOTICE $nick :         -help     Displays this help";
+    putquick "NOTICE $nick : ";
+    putquick "NOTICE $nick :Source available at https://github.com/hjan/qlstats";
 }
 
 proc qlstats::status {chan} {
