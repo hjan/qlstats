@@ -41,7 +41,7 @@ package require json;
 
 namespace eval qlstats {
 
-	variable version "2.9";
+	variable version "2.10";
 	variable agent "Mozilla/5.0 (X11; U; Linux i686; en-GB; rv:1.8.1) Gecko/2006101023 Firefox/3.0";
 	variable encoding "utf-8";
 	variable trigger "+";
@@ -383,23 +383,30 @@ proc qlstats::getLastMatch {player chan} {
 		}
 	}
 
-	if {[regexp -- {\s+SCOREBOARD_QUITTERS\s+} [dict keys $data]]} {
-		foreach value [dict get $data SCOREBOARD_QUITTERS] {
-			if {[string tolower [dict get $value PLAYER_NICK]] == $player} {
-				foreach var [list RANK ACCURACY KILLS DEATHS SCORE IMPRESSIVE EXCELLENT PLAY_TIME PLAYER_CLAN DAMAGE_DEALT DAMAGE_TAKEN] {
-					set $var [dict get $value $var];
-				}
-				foreach {weaponName weaponColor} $weaponList {
-					if {[dict get $value ${weaponName}_KILLS] != 0 || [dict get $value ${weaponName}_ACCURACY] != 0} {
-						lappend weaponsStats "$weaponColor [regsub -all -- {\.} [format %.1f [dict get $value ${weaponName}_ACCURACY]] ","]% ([dict get $value ${weaponName}_KILLS]) ([dict get $value ${weaponName}_HITS]/[dict get $value ${weaponName}_SHOTS])";
-					}
-				}
-				if {[regexp -nocase -- {(FFA)|(RR)} $gtype]} {
-					set userTimePlayed [clock format [dict get $value PLAY_TIME] -format %M:%S];
-				}
-			}
-		}
-	}
+    set scoreBoardQuitters [list SCOREBOARD_QUITTERS RACE_SCOREBOARD_QUITTERS];
+    foreach scoreBoard $scoreBoardQuitters {
+        if {[string bytelength [dict keys $data $scoreBoard]] > 0} {
+            foreach value [dict get $data $scoreBoard] {
+                if {[string tolower [dict get $value PLAYER_NICK]] == $player} {
+                    foreach var [list RANK ACCURACY KILLS DEATHS SCORE IMPRESSIVE EXCELLENT PLAY_TIME PLAYER_CLAN DAMAGE_DEALT DAMAGE_TAKEN] {
+                        set $var [dict get $value $var];
+                    }
+                    if { $scoreBoardQuitters != "RACE_SCOREBOARD_QUITTERS" } {
+                        foreach {weaponName weaponColor} $weaponList {
+                            if {[dict get $value ${weaponName}_KILLS] != 0 || [dict get $value ${weaponName}_ACCURACY] != 0} {
+                                lappend weaponsStats "$weaponColor [regsub -all -- {\.} [format %.1f [dict get $value ${weaponName}_ACCURACY]] ","]% ([dict get $value ${weaponName}_KILLS]) ([dict get $value ${weaponName}_HITS]/[dict get $value ${weaponName}_SHOTS])";
+                            }
+                        }
+                    }
+                    if {[regexp -nocase -- {(FFA)|(RR)|(RACE)} $gtype]} {
+                        set userTimePlayed [clock format [dict get $value PLAY_TIME] -format %M:%S];
+                    }
+                }
+            }
+        }
+    }
+
+
 
 	#
 	# Get additional information about the game
