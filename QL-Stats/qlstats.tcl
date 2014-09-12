@@ -41,7 +41,7 @@ package require json;
 
 namespace eval qlstats {
 
-    variable version "2.10";
+    variable version "2.11";
     variable agent "Mozilla/5.0 (X11; U; Linux i686; en-GB; rv:1.8.1) Gecko/2006101023 Firefox/3.0";
     variable encoding "utf-8";
     variable trigger "+";
