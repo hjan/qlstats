@@ -3,21 +3,25 @@
 #   http://xurv.org/ - #xurv on QuakeNet
 #
 #   Description:
-#	Quakelive Statistics (qlstats.tcl) is used to get
-#	some informations about playerstatistics from
-#    	http://quakelive.com/ .
+#       Quakelive Statistics (qlstats.tcl) is used to get
+#       some informations about playerstatistics from
+#       http://quakelive.com/.
 #
-#   Usage: +ql <playername>   Displays a summary of playerstatistics
-#	   +ql [option] <playername>
+#   Usage:
+#       +ql <playername>   Displays a summary of playerstatistics
+#       +ql [option] <playername>
 #
 #   Options:
 #       -last     Displays statistics of the recent match (result, scores, accuracy, etc.)
-#	-status   Does inform you about Quakelive.com online/offline status
-#	-help     Shows this help
+#       -status   Does inform you about Quakelive.com online/offline status
+#       -help     Shows this help
 #
 #   Requirements:
-#	Tcl >=8.5
-#	fsck 1.17 (get it from http://perplexa.ugug.org/web/projects/)
+#       Tcl >=8.5
+#       fsck 1.17 (available from the same repository)
+#
+#   Source: https://github.com/hjan/qlstats
+#
 #
 #   License:
 #
